@@ -36,12 +36,12 @@ jobs:
       HUGO_ENVIRONMENT: production
       TZ: America/Los_Angeles
     steps:
-      - name: Install Hugo CLI
+      - name: Setup Hugo
         run: |
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.147.5/hugo_0.147.5_linux-amd64.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-      - name: Install Dart Sass
-        run: sudo snap install dart-sass
+      # - name: Install Dart Sass
+      #   run: sudo snap install dart-sass
       # equal to: git clone 当前git repo
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,22 +50,22 @@ jobs:
           fetch-depth: 0
           # 指定branch
           ref: master
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-      - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-      - name: Cache Restore
-        id: cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            ${{ runner.temp }}/hugo_cache
-          key: hugo-${{ github.run_id }}
-          restore-keys:
-            hugo-
-      - name: Configure Git
-        run: git config core.quotepath false
+      # - name: Setup Pages
+      #   id: pages
+      #   uses: actions/configure-pages@v5
+      # - name: Install Node.js dependencies
+      #   run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      # - name: Cache Restore
+      #   id: cache-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       ${{ runner.temp }}/hugo_cache
+      #     key: hugo-${{ github.run_id }}
+      #     restore-keys:
+      #       hugo-
+      # - name: Configure Git
+      #   run: git config core.quotepath false
       - name: Build with Hugo
         # hugo \
         #   --gc \
@@ -76,13 +76,13 @@ jobs:
           hugo --minify
           echo "--- build output ---"
           ls -la ./public
-      - name: Cache Save
-        id: cache-save
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            ${{ runner.temp }}/hugo_cache
-          key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+      # - name: Cache Save
+      #   id: cache-save
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     path: |
+      #       ${{ runner.temp }}/hugo_cache
+      #     key: ${{ steps.cache-restore.outputs.cache-primary-key }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -92,9 +92,9 @@ jobs:
 
   # Deployment job
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    # environment:
+    #   name: github-pages
+    #   url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -106,7 +106,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          publish_dir: ${{ github.workspace }}/public
+          publish_dir: ./public
           # https://github.com/weita0/weita0.github.io.git
           external_repository: weita0/weita0.github.io
           publish_branch: master
