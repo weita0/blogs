@@ -67,12 +67,15 @@ jobs:
       - name: Configure Git
         run: git config core.quotepath false
       - name: Build with Hugo
+        # hugo \
+        #   --gc \
+        #   --minify \
+        #   --baseURL "${{ steps.pages.outputs.base_url }}/" \
+        #   --cacheDir "${{ runner.temp }}/hugo_cache"
         run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/" \
-            --cacheDir "${{ runner.temp }}/hugo_cache"
+          hugo --minify
+          echo "--- build output ---"
+          ls -la ./public
       - name: Cache Save
         id: cache-save
         uses: actions/cache/save@v4
@@ -84,6 +87,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
+      - name: Check if public directory exists
+        run: ls -la ./public
 
   # Deployment job
   deploy:
@@ -101,7 +106,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ${{ github.workspace }}/public
           # https://github.com/weita0/weita0.github.io.git
           external_repository: weita0/weita0.github.io
           publish_branch: master
