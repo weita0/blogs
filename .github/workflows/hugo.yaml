@@ -98,7 +98,7 @@ jobs:
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
           publish_dir: ./public
-          external_repository: git@github.com:weita0/weita0.github.io.git
+          external_repository: weita0/weita0.github.io.git
           publish_branch: master
           user_name: weita0
           user_email: weitao907@gmail.com
