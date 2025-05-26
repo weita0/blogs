@@ -2,3 +2,6 @@ baseURL = 'https://weita0.github.io/'
 languageCode = 'en-us'
 title = '沉思录'
 theme = 'PaperMod'
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
