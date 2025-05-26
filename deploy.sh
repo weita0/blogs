@@ -1,3 +1,4 @@
+# deploy.sh
 #!/bin/bash
 
 hugo
@@ -7,4 +8,4 @@ git init
 git remote add origin git@github.com:weita0/weita0.github.io.git
 git add .
 git commit -m "Deploy $(date)"
-git push -f origin main
+git push -f origin master
