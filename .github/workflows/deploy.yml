@@ -1,9 +1,22 @@
 name: Deploy Hugo to GitHub Pages
 
 on:
+  # runs on pushes targeting the default branch
   push:
     branches:
       - master  # 当 master 分支有新提交时触发
+    
+  workflow_dispatch:
+    
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# default to bash
+defaults:
+  run:
+    shell: bash
 
 jobs:
   build-and-deploy:
