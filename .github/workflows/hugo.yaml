@@ -42,11 +42,14 @@ jobs:
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Install Dart Sass
         run: sudo snap install dart-sass
+      # equal to: git clone 当前git repo
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
+          # 指定branch
+          ref: master
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
@@ -68,8 +71,8 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
-      # --cacheDir "${{ runner.temp }}/hugo_cache"
+            --baseURL "${{ steps.pages.outputs.base_url }}/" \
+            --cacheDir "${{ runner.temp }}/hugo_cache"
       - name: Cache Save
         id: cache-save
         uses: actions/cache/save@v4
@@ -94,6 +97,7 @@ jobs:
       #   id: deployment
       #   uses: actions/deploy-pages@v4
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
