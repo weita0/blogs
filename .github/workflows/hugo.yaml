@@ -29,12 +29,12 @@ defaults:
 
 jobs:
   # Build job
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.147.2
       HUGO_ENVIRONMENT: production
-      TZ: America/Los_Angeles
+      TZ: Asia/Shanghai
     steps:
       - name: Setup Hugo
         run: |
@@ -50,59 +50,13 @@ jobs:
           fetch-depth: 0
           # 指定branch
           ref: master
-      # - name: Setup Pages
-      #   id: pages
-      #   uses: actions/configure-pages@v5
-      # - name: Install Node.js dependencies
-      #   run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-      # - name: Cache Restore
-      #   id: cache-restore
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     path: |
-      #       ${{ runner.temp }}/hugo_cache
-      #     key: hugo-${{ github.run_id }}
-      #     restore-keys:
-      #       hugo-
-      # - name: Configure Git
-      #   run: git config core.quotepath false
       - name: Build with Hugo
-        # hugo \
-        #   --gc \
-        #   --minify \
-        #   --baseURL "${{ steps.pages.outputs.base_url }}/" \
-        #   --cacheDir "${{ runner.temp }}/hugo_cache"
-        run: |
-          hugo --minify
-          echo "--- build output ---"
-          ls -la ./public
-      # - name: Cache Save
-      #   id: cache-save
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     path: |
-      #       ${{ runner.temp }}/hugo_cache
-      #     key: ${{ steps.cache-restore.outputs.cache-primary-key }}
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
+        run: hugo --minify
+
       - name: Check if public directory exists
         run: ls -la ./public
-
-  # Deployment job
-  deploy:
-    # environment:
-    #   name: github-pages
-    #   url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      # - name: Deploy to GitHub Pages
-      #   id: deployment
-      #   uses: actions/deploy-pages@v4
-      - name: Deploy to GitHub Pages
-        id: deployment
+        
+      - name: deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
