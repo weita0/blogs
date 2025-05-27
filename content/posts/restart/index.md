@@ -2,9 +2,14 @@
 date = '2025-05-26T15:47:10+08:00'
 draft = false
 title = "Keep looking, don't Settle"
+[[resources]]
+  name = 'jobs'
+  src = 'images/jobs.png'
 +++
 
-标题这句话出自 Jobs 在斯坦福毕业典礼上的演讲，我觉得在此用作这个时隔多年重启的博客的名字非常合适。
+![](images/jobs.png)
+
+标题这句话出自 Jobs 在斯坦福毕业典礼上的演讲，我觉得在此用作这个时隔多年重启的博客的第一篇文章的标题非常合适。
 
 多年以前，在某处看过这个演讲，但那时感触并不深。现在把演讲视频在B站上找出来重看了一遍，才发现 Jobs 对于我的影响是多么巨大。
 

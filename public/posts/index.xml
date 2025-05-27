@@ -6,14 +6,54 @@
     <description>Recent content in Posts on Restart | 重开</description>
     <generator>Hugo -- 0.147.5</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 May 2025 15:47:10 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 27 May 2025 16:00:42 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Before You Memo()</title>
+      <link>http://localhost:1313/posts/before-you-memo/</link>
+      <pubDate>Tue, 27 May 2025 16:00:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/before-you-memo/</guid>
+      <description>&lt;h1 id=&#34;before-you-memo&#34;&gt;Before You memo()&lt;/h1&gt;
+&lt;h2 id=&#34;这是一篇译文原文是dan-abramov博客上的同名文章没有任何商业目的仅本身兴趣所致&#34;&gt;这是一篇译文，原文是Dan Abramov博客上的&lt;a href=&#34;https://overreacted.io/before-you-memo/&#34;&gt;同名文章&lt;/a&gt;，没有任何商业目的，仅本身兴趣所致。&lt;/h2&gt;
+&lt;p&gt;网上有许多介绍React性能优化的文章，通常来说，如果某些状态更新很慢，你需要：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确保你运行的是生产环境下构建出的产物（开发环境下本身就会更慢，极端情况下甚至会慢一个数级）&lt;/li&gt;
+&lt;li&gt;确保你没有把组件状态提升到不必要的层级（比如，把input框的状态保存在一个中心化的Store中）&lt;/li&gt;
+&lt;li&gt;用React开发工具Profiler查看哪些组件在重绘，并用memo()包装那些开销最大的子树（并在需要时加上useMemo()）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;最后一步很烦人，尤其是那些位于中间层的组件。理想情况下，编译器能替你完成这些工作，也许在未来，会的。&lt;/p&gt;
+&lt;p&gt;在这篇文章中，我想分享两种不同的技巧。他们惊人的基础，过于基础乃至于人们很少意识到他们实实在在地提升了渲染性能。&lt;/p&gt;
+&lt;p&gt;这两种技巧可以作为你已经知道的那些技巧的补充。他们不会替代 &lt;strong&gt;memo&lt;/strong&gt; 和 &lt;strong&gt;useMemo&lt;/strong&gt;，但他们通常都是可以优先考虑的、不错的尝试。&lt;/p&gt;
+&lt;h2 id=&#34;一个人为的慢组件&#34;&gt;一个人为的慢组件&lt;/h2&gt;
+&lt;p&gt;这是一个有严重性能问题的组件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-jsx&#34; data-lang=&#34;jsx&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;useState&lt;/span&gt; } &lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;react&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;default&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;App&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;color&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;setColor&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;useState&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;red&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;input&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#a6e22e&#34;&gt;color&lt;/span&gt;} &lt;span style=&#34;color:#a6e22e&#34;&gt;onChange&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;{(&lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;) =&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;setColor&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;)} /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;style&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;{{ &lt;span style=&#34;color:#a6e22e&#34;&gt;color&lt;/span&gt; }}&amp;gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Hello&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;world&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;ExpensiveTree&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ExpensiveTree&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;now&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;performance&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;now&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;performance&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;now&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;now&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// Artificial delay -- do nothing for 100ms
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;I&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;am&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;very&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;slow&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;component&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;tree&lt;/span&gt;.&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     <item>
       <title>Keep looking, don&#39;t Settle</title>
       <link>http://localhost:1313/posts/restart/</link>
       <pubDate>Mon, 26 May 2025 15:47:10 +0800</pubDate>
       <guid>http://localhost:1313/posts/restart/</guid>
-      <description>&lt;p&gt;标题这句话出自 Jobs 在斯坦福毕业典礼上的演讲，我觉得在此用作这个时隔多年重启的博客的名字非常合适。&lt;/p&gt;
+      <description>&lt;p&gt;标题这句话出自 Jobs 在斯坦福毕业典礼上的演讲，我觉得在此用作这个时隔多年重启的博客的第一篇文章的标题非常合适。&lt;/p&gt;
 &lt;p&gt;多年以前，在某处看过这个演讲，但那时感触并不深。现在把演讲视频在B站上找出来重看了一遍，才发现 Jobs 对于我的影响是多么巨大。&lt;/p&gt;
 &lt;p&gt;我想在此挑出演讲中的一些段落，放在这篇文章里，在这个无人问津的角落，用以自勉，并时刻提醒自己，不忘初心。&lt;/p&gt;
 &lt;p&gt;Jobs 在演讲里讲述了三个发生在他身上的故事，每个故事都围绕一个主题。&lt;/p&gt;
