@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Posts on 沉思录</title>
-    <link>https://weita0.github.io/posts/</link>
-    <description>Recent content in Posts on 沉思录</description>
+    <title>Posts on Restart | 重开</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on Restart | 重开</description>
     <generator>Hugo -- 0.147.5</generator>
     <language>en-us</language>
-    <lastBuildDate></lastBuildDate>
-    <atom:link href="https://weita0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 May 2025 15:47:10 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Keep looking, don&#39;t Settle</title>
+      <link>http://localhost:1313/posts/restart/</link>
+      <pubDate>Mon, 26 May 2025 15:47:10 +0800</pubDate>
+      <guid>http://localhost:1313/posts/restart/</guid>
+      <description>&lt;p&gt;标题这句话出自 Jobs 在斯坦福毕业典礼上的演讲，我觉得在此用作这个时隔多年重启的博客的名字非常合适。&lt;/p&gt;
+&lt;p&gt;多年以前，在某处看过这个演讲，但那时感触并不深。现在把演讲视频在B站上找出来重看了一遍，才发现 Jobs 对于我的影响是多么巨大。&lt;/p&gt;
+&lt;p&gt;我想在此挑出演讲中的一些段落，放在这篇文章里，在这个无人问津的角落，用以自勉，并时刻提醒自己，不忘初心。&lt;/p&gt;
+&lt;p&gt;Jobs 在演讲里讲述了三个发生在他身上的故事，每个故事都围绕一个主题。&lt;/p&gt;
+&lt;h2 id=&#34;1st-story-connect-the-dots&#34;&gt;1st Story: connect the dots&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I had no idea what I wanted to do with my life, and no idea how college was going to help me figure it out. And here I was spending all of the money my parents had saved their entire life. So I decided to drop out and trust that it would all work out OK. It was pretty scary at that time. But looking back, it was one of the best decisions I ever made. The minute I dropped out, I could stop taking the required classes that didn&amp;rsquo;t interest me and begin dropping in on the ones that looked far more interesting.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
