@@ -1,6 +1,6 @@
 baseURL = 'https://weita0.github.io/'
 languageCode = 'en-us'
-title = 'Keep looking, don\'t settle'
+title = "Keep looking, don't settle"
 theme = 'PaperMod'
 [caches]
   [caches.images]
