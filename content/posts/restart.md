@@ -38,6 +38,11 @@ Jobs的这个理念对我的潜在影响就是，当我做一件事时，不会�
 > I'm pretty sure none of this would have happened if I hadn't been fired from Apple. It was awful tasting medicine, but I guess the patient needed it. Sometimes life hits you in the head with a brick. Don't lose faith. I'm convinced that the only thing that kept me going was that I loved what I did. You've got to find what you love. And that is as true for your work as it is for your lovers.
 
 这里Jobs说假如没有在他30岁时被赶出Apple这件事，也就不会有他后来创立Next和Pixar这些事。良药苦口，但（当时的）我需要它。
-有时生活会给你当头一棒，不要失去信念。我坚信，让我一直
+有时生活会给你当头一棒，不要失去信念。我坚信，唯一支撑我走下去的，是我热爱我做的事。你一定要找到你所热爱的，不管是工作也好，爱人也罢，一定要找到你爱的。
 
 > Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven't found it yet, keep looking, and don't settle.
+
+你的工作会占据你生活的绝大部分，唯一能让你真正感到满足的，就是去做真正great的工作。做great的工作的唯一方式，是热爱你所做的事。如果你还没找到它，**继续找，不要将就**。
+
+这里我不知道如何恰当地翻译great work，「伟大的工作」似乎过于沉重了，大部分人的工作都是微小，不值得称道的，你能因此就否定他们工作的意义吗。美国人似乎很喜欢用great、amazing、wonderful这类在中文语境下的「大词」，我觉得这里Jobs想表达的，是有意义的工作、不平庸的工作，对应「ordinary work」。
+
