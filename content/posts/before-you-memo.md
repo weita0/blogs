@@ -1,6 +1,6 @@
 +++
 date = '2025-05-27T16:00:42+08:00'
-draft = true
+draft = false
 title = 'Before You Memo()'
 +++
 
@@ -150,7 +150,31 @@ function ColorPicker({ children }) {
 
 我们把`App`组件一分为二。依赖`color`的那部分，和`color`状态本身，一起移到了`ColorPicker`这个组件中。
 
-不关心`color`的部分仍然待在`App`组件里。
+不关心`color`的部分仍然待在`App`组件里，作为JSX传给`ColorPicker`，也就是`children`这个prop。
+
+当`color`改变时，`ColorPicker`重绘。但它的从`App`拿到的`children`prop没有变，因此React不会访问这棵子树。
+
+结果就是，`<ExpensiveTree />`没有重绘。
+
+## 准则是什么？
+
+在你用`memo`或`useMemo`做优化前，也许你可以先检查一下你是否可以把会改变的部分和不会改变的部分分离。
+
+**有趣的是，本质上这些方案和性能优化没有任何关系。** 使用`children`这个prop去分离组件通常会让应用的数据流更容易跟踪，并且也减少了透传到子组件里的prop数量。性能提升（正如在上面的例子中所展示的）是额外的奖励，不是最初的目的。
+
+在未来，这一模式同样解锁了更多性能上的好处。
+
+例如，当`Server Components`稳定且被可接受时，我们的`ColorPicker`组件会从`server`端收到它的`children`。整个`<ExpensiveTree />`组件和它的部分都会运行在服务端，在客户端，即使顶层的React状态的更新也会“跳过”那些部分。
+
+这是`memo`做不到的！但是，再次声明，这些方法是互为补充的。请不要忽略状态下移和内容提升。
+
+然后，如果还不够，请使用Profiler并加上那些memo。
+
+## 我之前好像在哪里读过这些？
+
+[也许是的](https://kentcdodds.com/blog/optimize-react-re-renders)
+
+这不是一个新点子。这是React组件组合模式下很自然的结果。它太过简单以至于常被低估，它值得更多一点关注！
 
 
 
