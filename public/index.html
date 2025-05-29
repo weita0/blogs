@@ -107,6 +107,23 @@
 
 <article class="first-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Pull to Refresh | 下拉刷新
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>下拉刷新大概是我们日常使用手机时最常做的一个操作，为了消解无聊，在各个App间频繁切换（无一例外这些App都采用了瀑布流），上滑、下滑，试图用信息把头脑填满。
+那么如何实现这个看似简单的功能呢。
+正式开始前，我们需要做一点准备工作。
+首先，我们得有一个瀑布流。
+1function Waterfall() { 2 const [l1, setL1] = useState([]); 3 const [l2, setL2] = useState([]); 4 const startQuery = async () =&gt; { 5 const [l1, l2] = await Promise.all([ 6 fetch(&#39;http://localhost:3000/list&#39;).then(res =&gt; res.json()), 7 fetch(&#39;http://localhost:3000/list&#39;).then(res =&gt; res.json()), 8 ]) 9 setL1(l1); 10 setL2(l2); 11 } 12 13 useEffect(() =&gt; { 14 startQuery(); 15 }, []); 16 return ( 17 &lt;div className=&#34;h-screen w-full grid grid-cols-2&#34;&gt; 18 &lt;div className=&#34;w-full flex flex-col justify-start items-center&#34;&gt; 19 {l1.map(color =&gt; &lt;Card color={color} /&gt;)} 20 &lt;/div&gt; 21 &lt;div className=&#34;w-full flex flex-col justify-start items-center&#34;&gt; 22 {l2.map(color =&gt; &lt;Card color={color} /&gt;)} 23 &lt;/div&gt; 24 &lt;/div&gt; 25 ) 26} 这里我用nest在本地启了一个node服务，接口会返回一串随机的颜色，像[&#39;#ffffff&#39;, &#39;#000000&#39;, ...]这样，并有一个额外的delay用来模拟网络延迟。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-05-28 11:20:13 +0800 CST'>May 28, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to Pull to Refresh | 下拉刷新" href="http://localhost:1313/posts/pull-to-refresh/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Before You Memo()
     </h2>
   </header>

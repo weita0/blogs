@@ -111,7 +111,7 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Before You Memo()
+    <h2 class="entry-hint-parent">Pull to Refresh
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
           <path
@@ -121,12 +121,29 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>Before You memo() 这是一篇译文，原文是Dan Abramov博客上的同名文章，没有任何商业目的，仅本身兴趣所致。 网上有许多介绍React性能优化的文章，通常来说，如果某些状态更新很慢，你需要：
+    <p>下拉刷新 下拉刷新大概是我们日常使用手机时最常做的一个操作，为了消解无聊，在各个App间频繁切换（无一例外这些App都采用了瀑布流），上滑、下滑，试图用信息把空虚填满。
+那么如何实现这个看似简单的功能呢。
+首先，我们得有一个瀑布流。
+1function Waterfall() { 2 const [l1, setL1] = useState([]); 3 const [l2, setL2] = useState([]); 4 const startQuery = async () =&gt; { 5 const [l1, l2] = await Promise.all([ 6 fetch(&#39;http://localhost:3000/list&#39;).then(res =&gt; res.json()), 7 fetch(&#39;http://localhost:3000/list&#39;).then(res =&gt; res.json()), 8 ]) 9 setL1(l1); 10 setL2(l2); 11 } 12 13 useEffect(() =&gt; { 14 startQuery(); 15 }, []); 16 return ( 17 &lt;div className=&#34;h-screen w-full grid grid-cols-2&#34;&gt; 18 &lt;div className=&#34;w-full flex flex-col justify-start items-center&#34;&gt; 19 {l1.map(color =&gt; &lt;Card color={color} /&gt;)} 20 &lt;/div&gt; 21 &lt;div className=&#34;w-full flex flex-col justify-start items-center&#34;&gt; 22 {l2.map(color =&gt; &lt;Card color={color} /&gt;)} 23 &lt;/div&gt; 24 &lt;/div&gt; 25 ) 26} 这里我用nest在本地启了一个node服务，接口会返回一串随机的颜色，像
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-05-28 11:20:13 +0800 CST'>May 28, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to Pull to Refresh" href="http://localhost:1313/posts/pull-to-refresh/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Before You Memo()
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>这是一篇译文，原文是Dan Abramov博客上的同名文章，没有任何商业目的，仅本身兴趣所致。 网上有许多介绍React性能优化的文章，通常来说，如果某些状态更新很慢，你需要：
 确保你运行的是生产环境下构建出的产物（开发环境下本身就会更慢，极端情况下甚至会慢一个数级） 确保你没有把组件状态提升到不必要的层级（比如，把input框的状态保存在一个中心化的Store中） 用React开发工具Profiler查看哪些组件在重绘，并用memo()包装那些开销最大的子树（并在需要时加上useMemo()） 最后一步很烦人，尤其是那些位于中间层的组件。理想情况下，编译器能替你完成这些工作，也许在未来，会的。
 在这篇文章中，我想分享两种不同的技巧。他们惊人的基础，过于基础乃至于人们很少意识到他们实实在在地提升了渲染性能。
-这两种技巧可以作为你已经知道的那些技巧的补充。他们不会替代 memo 和 useMemo，但他们通常都是可以优先考虑的、不错的尝试。
+这两种技巧可以作为你已经知道的那些技巧的补充。他们不会替代memo 和useMemo，但他们通常都是可以优先考虑的、不错的尝试。
 一个人为的慢组件 这是一个有严重性能问题的组件：
-import { useState } from &#39;react&#39;; export default function App() { let [color, setColor] = useState(&#39;red&#39;); return ( &lt;div&gt; &lt;input value={color} onChange={(e) =&gt; setColor(e.target.value)} /&gt; &lt;p style={{ color }}&gt;Hello, world!&lt;/p&gt; &lt;ExpensiveTree /&gt; &lt;/div&gt; ) } function ExpensiveTree() { let now = performance.now(); while (performance.now() - now &lt; 100) { // Artificial delay -- do nothing for 100ms } return &lt;p&gt;I am a very slow component tree.&lt;/p&gt; } </p>
+1import { useState } from &#39;react&#39;; 2 3export default function App() { 4 let [color, setColor] = useState(&#39;red&#39;); 5 return ( 6 &lt;div&gt; 7 &lt;input value={color} onChange={(e) =&gt; setColor(e.target.value)} /&gt; 8 &lt;p style={{ color }}&gt;Hello, world!&lt;/p&gt; 9 &lt;ExpensiveTree /&gt; 10 &lt;/div&gt; 11 ) 12} 13 14function ExpensiveTree() { 15 let now = performance.now(); 16 while (performance.now() - now &lt; 100) { 17 // Artificial delay -- do nothing for 100ms 18 } 19 return &lt;p&gt;I am a very slow component tree.&lt;/p&gt; 20} 问题在于不管color什么时候改变，我们都会重绘&lt;ExpensiveTree /&gt;，这个组件内部会被人为地延迟，所以很慢。
+...</p>
   </div>
   <footer class="entry-footer"><span title='2025-05-27 16:00:42 +0800 CST'>May 27, 2025</span></footer>
   <a class="entry-link" aria-label="post link to Before You Memo()" href="http://localhost:1313/posts/before-you-memo/"></a>
@@ -138,7 +155,8 @@ import { useState } from &#39;react&#39;; export default function App() { let [c
     </h2>
   </header>
   <div class="entry-content">
-    <p>标题这句话出自 Jobs 在斯坦福毕业典礼上的演讲，我觉得在此用作这个时隔多年重启的博客的第一篇文章的标题非常合适。
+    <p>
+标题这句话出自 Jobs 在斯坦福毕业典礼上的演讲，我觉得在此用作这个时隔多年重启的博客的第一篇文章的标题非常合适。
 多年以前，在某处看过这个演讲，但那时感触并不深。现在把演讲视频在B站上找出来重看了一遍，才发现 Jobs 对于我的影响是多么巨大。
 我想在此挑出演讲中的一些段落，放在这篇文章里，在这个无人问津的角落，用以自勉，并时刻提醒自己，不忘初心。
 Jobs 在演讲里讲述了三个发生在他身上的故事，每个故事都围绕一个主题。
