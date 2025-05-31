@@ -204,7 +204,19 @@ function PullToRefresh({ children, onRefresh }) {
 
 ![](images/demo-2.gif)
 
-比上一版好不少，不是吗。
+比上一版好不少，对吗。
+
+如果想更加精致一点，可以给Spinner加上一个`scale`样式。
+
+```jsx {linenos=inline}
+<Spinner
+  style={{
+    scale: !loading ? translateY / 100 : 1
+  }}
+/>
+```
+
+![](images/demo-3.gif)
 
 以上，就是一个简单的`PullToRefresh`的实现，希望对你（还有我）有所启发 ———— 但是且慢 ———— 我们这个实现有一个很大的缺陷 ———— 无法在pc端使用！因为它是通过一系列`touch`事件的组合来实现的，因此只能在移动端生效。
 

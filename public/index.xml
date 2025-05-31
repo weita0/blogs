@@ -6,8 +6,53 @@
     <description>Recent content on Restart | 重开</description>
     <generator>Hugo -- 0.147.5</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 May 2025 11:20:13 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 29 May 2025 23:12:27 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>When to Do What You Love</title>
+      <link>http://localhost:1313/posts/when-to-do-what-you-love/</link>
+      <pubDate>Thu, 29 May 2025 23:12:27 +0800</pubDate>
+      <guid>http://localhost:1313/posts/when-to-do-what-you-love/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ArrayBuffer</title>
+      <link>http://localhost:1313/posts/arraybuffer/</link>
+      <pubDate>Thu, 29 May 2025 18:05:21 +0800</pubDate>
+      <guid>http://localhost:1313/posts/arraybuffer/</guid>
+      <description>&lt;h2 id=&#34;引子&#34;&gt;引子&lt;/h2&gt;
+&lt;p&gt;对&lt;code&gt;ArrayBuffer&lt;/code&gt;的关注，始于一次面试。那次面试，聊到Web Worker，被问到使用&lt;code&gt;Worker&lt;/code&gt;是否一定能提升性能。&lt;/p&gt;
+&lt;p&gt;回答自然是否，一是&lt;code&gt;Worker&lt;/code&gt;和主线程之间有通信开销，二是因为&lt;code&gt;Worker&lt;/code&gt;本身是一个线程，创建新线程本身也有成本，三是增加了开发的调试成本。&lt;/p&gt;
+&lt;p&gt;然后被问到，通信开销具体有哪些。&lt;/p&gt;
+&lt;p&gt;答曰，主线程和&lt;code&gt;Worker&lt;/code&gt;之间通过&lt;code&gt;postMessage&lt;/code&gt;和&lt;code&gt;onmessage&lt;/code&gt;来传递消息，每次消息传递都会深拷贝一份数据（所谓结构化克隆 | Structured Clone）。如果传递的数据量很大时（几十MB甚至更大），克隆的成本很高。&lt;/p&gt;
+&lt;p&gt;然后被问到，有什么办法可以规避吗。&lt;/p&gt;
+&lt;p&gt;&amp;hellip;我表示不知道。&lt;/p&gt;
+&lt;p&gt;然后面试官很nice地告诉我，可以用&lt;code&gt;ArrayBuffer&lt;/code&gt;来存储需要传递的数据，这样数据就可以被&lt;code&gt;转移&lt;/code&gt;而非&lt;code&gt;拷贝&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;不知道多少人和我一样，对&lt;code&gt;ArrayBuffer&lt;/code&gt;几乎可以说一无所知，作为前端开发，平时很少有机会和二进制、内存打交道。于是下来特意查了下，就有了这篇文章。&lt;/p&gt;
+&lt;h2 id=&#34;what-is-arraybuffer&#34;&gt;What is ArrayBuffer&lt;/h2&gt;
+&lt;p&gt;MDN上是这么说的&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;ArrayBuffer&lt;/code&gt;对象用来表示通用的原始二进制数据缓冲区。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;它是一个字节数组，通常在其他语言中称为&lt;code&gt;byte array&lt;/code&gt;。你不能直接操作&lt;code&gt;ArrayBuffer&lt;/code&gt;中的内容；而要通过类型化数组对象或&lt;code&gt;DataView&lt;/code&gt;对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;ArrayBuffer&lt;/code&gt; 是一个可转移对象&lt;/strong&gt;。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ArrayBuffer 对象可以在初始化时传入 &lt;code&gt;maxByteLength&lt;/code&gt;选项使其大小可变，通过&lt;code&gt;resize()&lt;/code&gt;为可变&lt;code&gt;ArrayBuffer&lt;/code&gt;分配一个新的大小。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ArrayBuffer 实例可以在不同的执行上下文之间传输，通过在调用&lt;code&gt;postMessage&lt;/code&gt;时传入&lt;code&gt;ArrayBuffer对象&lt;/code&gt;作为&lt;code&gt;可转移对象&lt;/code&gt;来完成。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当ArrayBuffer对象被传输时，它原来的副本会被&lt;code&gt;detached&lt;/code&gt;，不再可用。可以通过&lt;code&gt;detached&lt;/code&gt;属性检查&lt;code&gt;ArrayBuffer&lt;/code&gt;是否已分离。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;a-real-scene&#34;&gt;A Real Scene&lt;/h2&gt;
+&lt;p&gt;让我们来搭一个舞台，看一下ArrayBuffer在实际场景中的用法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>过时 | Out of Date</title>
+      <link>http://localhost:1313/posts/out-of-date/</link>
+      <pubDate>Thu, 29 May 2025 16:42:46 +0800</pubDate>
+      <guid>http://localhost:1313/posts/out-of-date/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Pull to Refresh | 下拉刷新</title>
       <link>http://localhost:1313/posts/pull-to-refresh/</link>
@@ -57,9 +102,9 @@
 &lt;li&gt;确保你没有把组件状态提升到不必要的层级（比如，把input框的状态保存在一个中心化的Store中）&lt;/li&gt;
 &lt;li&gt;用React开发工具Profiler查看哪些组件在重绘，并用&lt;code&gt;memo()&lt;/code&gt;包装那些开销最大的子树（并在需要时加上&lt;code&gt;useMemo()&lt;/code&gt;）&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;最后一步很烦人，尤其是那些位于中间层的组件。理想情况下，编译器能替你完成这些工作，也许在未来，会的。&lt;/p&gt;
-&lt;p&gt;在这篇文章中，我想分享两种不同的技巧。他们惊人的基础，过于基础乃至于人们很少意识到他们实实在在地提升了渲染性能。&lt;/p&gt;
-&lt;p&gt;这两种技巧可以作为你已经知道的那些技巧的补充。他们不会替代&lt;code&gt;memo&lt;/code&gt; 和&lt;code&gt;useMemo&lt;/code&gt;，但他们通常都是可以优先考虑的、不错的尝试。&lt;/p&gt;
+&lt;p&gt;最后一步很烦人，尤其是那些位于中间层的组件。理想情况下，编译器能替你完成这些工作。未来也许会实现的。&lt;/p&gt;
+&lt;p&gt;在这篇文章中，我想分享两种不同的技巧。他们过于基础，乃至于人们很少意识到他们实实在在地提升了渲染性能。&lt;/p&gt;
+&lt;p&gt;这两种技巧可以作为你已经知道的那些技巧的补充。他们不会替代&lt;code&gt;memo&lt;/code&gt; 和&lt;code&gt;useMemo&lt;/code&gt;，但通常都是可以优先考虑的、不错的尝试。&lt;/p&gt;
 &lt;h2 id=&#34;一个人为的慢组件&#34;&gt;一个人为的慢组件&lt;/h2&gt;
 &lt;p&gt;这是一个有严重性能问题的组件：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-jsx&#34; data-lang=&#34;jsx&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;useState&lt;/span&gt; } &lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;react&amp;#39;&lt;/span&gt;;
